@@ -3,6 +3,7 @@ package just.juced.justtest.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +63,8 @@ public class RssItemListFragment extends Fragment {
     private boolean firstTimeForLoadFeedsFromRealm = true;
     private RssCategoriesSpinnerAdapter spinnerAdapter;
     private boolean needToShowEmptyFragment = true;
+    private boolean spinnerInReselection = false;
+    private boolean spinnerHasChanges = false;
 
     private boolean mTwoPane = false;
     private View view;
@@ -210,6 +214,7 @@ public class RssItemListFragment extends Fragment {
         RealmChangeListener<RealmResults<RssFeedItem>> realmChangeListener = new RealmChangeListener<RealmResults<RssFeedItem>>() {
             @Override
             public void onChange(RealmResults<RssFeedItem> results) {
+                spinnerHasChanges = true;
                 swipe_refresh_layout.setRefreshing(false);
 
                 try {
@@ -260,19 +265,28 @@ public class RssItemListFragment extends Fragment {
     }
 
     protected void setCategoriesSelectorSpinner(boolean forceToolbarSpinner) {
-        /*if (selectedCategoryName != null) {
+        if (spinnerInReselection) {
+            spinnerHasChanges = false;
+            spinnerInReselection = false;
             return;
-        }*/
+        }
 
         List<String> items = new ArrayList<>();
-        for (int i = 0; i < rssFeedItems.size(); i++) {
-            String categName = rssFeedItems.get(i).getCategoryName();
-            if (categName != null && !categName.isEmpty() && !items.contains(categName)) {
-                items.add(categName);
+
+        if (spinnerHasChanges) {
+            spinnerHasChanges = false;
+            for (int i = 0; i < rssFeedItems.size(); i++) {
+                String categName = rssFeedItems.get(i).getCategoryName();
+                if (categName != null && !categName.isEmpty() && !items.contains(categName)) {
+                    items.add(categName);
+                }
             }
+            Collections.sort(items);
+            items.add(0, MyApplication.getSingleton().getResources().getString(R.string.allCategs));
         }
-        Collections.sort(items);
-        items.add(0, MyApplication.getSingleton().getResources().getString(R.string.allCategs));
+        else {
+            items.addAll(spinnerAdapter.getmItems());
+        }
 
         if (forceToolbarSpinner || spinnerAdapter == null || !ArrayHelper.equalLists(spinnerAdapter.getmItems(), items)) {
             View spinnerContainer = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_spinner, toolbar, false);
@@ -293,6 +307,8 @@ public class RssItemListFragment extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (!spinnerAdapter.getItem(position).equals(selectedCategoryName)) {
+                        spinnerInReselection = true;
+
                         if (spinnerAdapter.getItem(position).equals(MyApplication.getSingleton().getResources().getString(R.string.allCategs))) {
                             selectedCategoryName = null;
                         }
@@ -378,5 +394,18 @@ public class RssItemListFragment extends Fragment {
                 .replace(R.id.block_details, fragment)
                 .commit();
     }
+
+    /*@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            spinnerInReselection = true;
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            spinnerInReselection = true;
+        }
+    }*/
 
 }

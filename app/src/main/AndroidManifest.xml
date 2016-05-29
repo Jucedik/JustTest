@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="just.juced.justtest">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".application.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.StartActivity"
+            android:label="@string/title_activity_start"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.RssItemListActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="just.juced.justtest.activities.StartActivity" />
+        </activity>
+        <activity
+            android:name=".activities.RssItemDetailActivity"
+            android:label="@string/title_rssitem_detail"
+            android:parentActivityName=".activities.RssItemListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.RssItemListActivity" />
+        </activity>
+        <activity
+            android:name=".activities.CreateNewProviderActivity"
+            android:label="@string/title_activity_createNewProvider"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".plugins.rss_service_worker.service.RssWorkerIntentService"
+            android:exported="false" />
+
+        <receiver
+            android:name=".plugins.rss_service_worker.receiver.RssWorkerAlarmReceiver"
+            android:enabled="true"
+            android:process=":remote" />
+    </application>
+
+</manifest>

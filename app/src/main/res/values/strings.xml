@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">JustTest</string>
+    <string name="title_rssitem_detail">RssItem Detail</string>
+    <string name="title_activity_start">RssReader</string>
+    <string name="title_activity_createNewProvider">Rss provider editor</string>
+
+    <string name="inputUrl">Введите ссылку на rss ленту</string>
+    <string name="next">далее</string>
+    <string name="rssProviderSuccessfullySaved">RSS провайдер добавлен</string>
+    <string name="rssProviderSuccessfullyRemoved">RSS провайдер удален</string>
+    <string name="nothingToShow_1">Здесь пока ничего нет.</string>
+    <string name="allCategs">Все категории</string>
+    <string name="selectFeed">Выберите новость</string>
+    <string name="runService">Запустить сервис обновления RSS</string>
+    <string name="stopService">Остановить сервис обновления RSS</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

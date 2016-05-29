@@ -1,0 +1,86 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.RssItemListActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools">
+
+        <RelativeLayout
+            android:id="@+id/block_loader"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.rahatarmanahmed.cpv.CircularProgressView
+                app:cpv_color="@color/colorAccent"
+                android:layout_centerInParent="true"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cpv_animAutostart="true"
+                app:cpv_indeterminate="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/block_content"
+            android:weightSum="6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:divider="?android:attr/dividerHorizontal"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            tools:context=".activities.RssItemListActivity">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:layout_weight="2"
+                android:id="@+id/swipe_refresh_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <just.juced.justtest.views.AutofitRecyclerView
+                    android:background="@color/white"
+                    android:id="@+id/recyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:padding="4dp"
+                    android:columnWidth="200dp"
+                    android:clipToPadding="false"
+                    />
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <FrameLayout
+                android:id="@+id/block_details"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
